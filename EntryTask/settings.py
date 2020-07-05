@@ -173,7 +173,7 @@ FRONTEND_ROOT = 'new_frontend/dist'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, FRONTEND_ROOT),
-    os.path.join(BASE_DIR, FRONTEND_ROOT + '/static/'),
+    os.path.join(BASE_DIR, FRONTEND_ROOT + '/static'),
 )
 
 CACHES = {

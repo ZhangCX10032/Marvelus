@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+Vue.config.devtools = true;
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -8,8 +9,7 @@ export default new Vuex.Store({
     username: null,
     name: null,
     isAdmin: false,
-    isProf: false,
-    isTA: false
+    isDoctor: false
   },
   mutations: {
     setUsername (state, username) {
@@ -21,11 +21,8 @@ export default new Vuex.Store({
     isAdmin (state, isAdmin) {
       state.isAdmin = isAdmin
     },
-    isProf (state, isProf) {
-      state.isProf = isProf
-    },
-    isTA (state, isTA) {
-      state.isTA = isTA
+    isDoctor (state, isDoctor) {
+      state.isDoctor = isDoctor
     }
   },
   actions: {

@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'luminus',
+    'clin',
 ]
 
 MIDDLEWARE = [
@@ -116,9 +116,9 @@ DATABASES = {
         'HOST':'localhost',
         'PORT':'3306',
     },
-    'luminus': {
+    'clin': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'luminus',
+        'NAME': 'clin',
         'USER': 'root',
         'PASSWORD': 'root',
         # 'PASSWORD': 'password',
@@ -184,7 +184,7 @@ CACHES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'luminus.MyAuthenticationBackend.MyAuthenticationBackend',
+    'clin.MyAuthenticationBackend.MyAuthenticationBackend',
 )
 
-AUTH_USER_MODEL = 'luminus.User'
+AUTH_USER_MODEL = 'clin.User'

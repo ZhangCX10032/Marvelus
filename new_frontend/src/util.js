@@ -1,4 +1,4 @@
-import JsEncrypt from 'jsencrypt'
+import JSEncrypt from 'jsencrypt'
 
 function getDate (timestamp) {
   return new Date(parse(timestamp)).toLocaleDateString()

@@ -1,10 +1,10 @@
 DROP DATABASE IF EXISTS entrytask; 
-DROP DATABASE IF EXISTS luminus; 
+DROP DATABASE IF EXISTS clin;
 
 CREATE DATABASE entrytask;
-CREATE DATABASE luminus;
+CREATE DATABASE clin;
 
-USE luminus;
+USE clin;
 
 DROP TABLE IF EXISTS View CASCADE;
 DROP TABLE IF EXISTS Posts CASCADE;
@@ -158,7 +158,7 @@ code varchar(50),
 status varchar(50),
 attendance_grade DECIMAL(6,3),
 test_grade DECIMAL(6,3),
-final_grade varchar(50), 
+final_grade varchar(50),
 enroll_year YEAR,
 FOREIGN KEY (uname) references Students(uname) ON DELETE CASCADE,
 FOREIGN KEY (code) references Courses(code) ON DELETE CASCADE,
@@ -189,7 +189,7 @@ PRIMARY KEY (f_code, fid, t_code, group_num)
 
 drop trigger if exists add_facilitate;
 delimiter $$
-create trigger add_facilitate before insert on Facilitate for each row 
+create trigger add_facilitate before insert on Facilitate for each row
 begin
 	call is_assist(NEW.uname, NEW.code);
 end $$
@@ -204,16 +204,16 @@ declare message varchar(255);
 select count(*) into count from Assist where uname = Assist.uname AND code = Assist.code;
 if count=0 then
 SET message = CONCAT('The TA is not assisting this course ', code);
- SIGNAL SQLSTATE '45000'  
+ SIGNAL SQLSTATE '45000'
 SET MESSAGE_TEXT = message;
 end if;
-end $$ 
+end $$
 delimiter ;
 
 
 drop trigger if exists add_assist;
 delimiter $$
-create trigger add_assist before insert on Assist for each row 
+create trigger add_assist before insert on Assist for each row
 begin
 	call check_assist_eligibility(NEW.uname, NEW.code);
 end $$
@@ -225,21 +225,21 @@ create procedure check_assist_eligibility(uname varchar(50), code varchar(50))
 begin
 declare count numeric;
 declare message varchar(255);
-select count(*) into count from Enroll e where 
-uname = e.uname 
+select count(*) into count from Enroll e where
+uname = e.uname
 AND code = e.code
 AND e.status = 'completed';
 if count=0 then
 SET message = CONCAT('The TA has not completed the course ', code);
- SIGNAL SQLSTATE '45000'  
+ SIGNAL SQLSTATE '45000'
 SET MESSAGE_TEXT = message;
 end if;
-end $$ 
+end $$
 delimiter ;
 
 drop trigger if exists add_attend;
 delimiter $$
-create trigger add_attend before insert on Attend for each row 
+create trigger add_attend before insert on Attend for each row
 begin
 	call check_enroll(NEW.uname, NEW.code);
 end $$
@@ -251,22 +251,22 @@ create procedure check_enroll(uname varchar(50), code varchar(50))
 begin
 declare count numeric;
 declare message varchar(255);
-select count(*) into count from Enroll e where 
-uname = e.uname 
+select count(*) into count from Enroll e where
+uname = e.uname
 AND code = e.code
 AND e.status = 'enrolled';
 if count=0 then
 SET message = CONCAT('The student is not enrolled in the course ', code);
- SIGNAL SQLSTATE '45000'  
+ SIGNAL SQLSTATE '45000'
 SET MESSAGE_TEXT = message;
 end if;
-end $$ 
+end $$
 delimiter ;
 
 
 drop trigger if exists add_attendance;
 delimiter $$
-create trigger add_attendance before insert on Attendance for each row 
+create trigger add_attendance before insert on Attendance for each row
 begin
 	call check_attend(NEW.uname, NEW.code,NEW.group_num);
 end $$
@@ -278,18 +278,18 @@ create procedure check_attend(uname varchar(50), code varchar(50),group_num varc
 begin
 declare count numeric;
 declare message varchar(255);
-select count(*) into count from Attend a where 
-uname = a.uname 
+select count(*) into count from Attend a where
+uname = a.uname
 AND code = a.code
 AND group_num = a.group_num;
 if count=0 then
 SET message = CONCAT('The student does not attend in the tut group ', group_num);
- SIGNAL SQLSTATE '45000'  
+ SIGNAL SQLSTATE '45000'
 SET MESSAGE_TEXT = message;
-else  update enroll e SET e.attendance_grade=e.attendance_grade+1 
+else  update enroll e SET e.attendance_grade=e.attendance_grade+1
 where e.uname=uname;
 end if;
-end $$ 
+end $$
 delimiter ;
 
 
@@ -297,7 +297,7 @@ delimiter ;
 
 Insert into Users values('prof1', 'e10adc3949ba59abbe56e057f20f883e', 'Prof Ben', 'prof1@gmail.com',null);
 Insert into Users values('prof2', 'e10adc3949ba59abbe56e057f20f883e', 'Prof Ken', 'prof2@gmail.com',null);
-insert into Users values ('stu1', 'e10adc3949ba59abbe56e057f20f883e', 'Wang Xiaochao', 'stu1@gmail.com',null); 
+insert into Users values ('stu1', 'e10adc3949ba59abbe56e057f20f883e', 'Doc', 'stu1@gmail.com',null);
 insert into Users values ('stu2', 'e10adc3949ba59abbe56e057f20f883e', 'Chen Xiaoyun', 'stu2@gmail.com',null); 
 insert into Users values ('stu3', 'e10adc3949ba59abbe56e057f20f883e', 'Chen Xiaoxi', 'stu3@gmail.com',null); 
 insert into Users values ('stu4', 'e10adc3949ba59abbe56e057f20f883e', 'Chen Xiaojun', 'stu4@gmail.com',null); 

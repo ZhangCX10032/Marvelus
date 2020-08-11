@@ -14,6 +14,7 @@ import ToastService from 'primevue/toastservice';
 
 const backendUrl = 'http://127.0.0.1:8000/api/'
 
+Vue.config.devtools = true;
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true
@@ -22,13 +23,15 @@ Vue.prototype.$util = util
 Vue.use(ToastService);
 
 router.beforeEach((to, from, next) => {
+  console.log(to.name + " <- " + from.name)
   if (store.state.username || to.name === 'Login') {
-    if ((to.name === 'Index'|| to.name === 'Login') && store.state.isProf) {
-      next({name: 'TeachList'})
+    if ((to.name === 'Index'|| to.name === 'Login') && store.state.isDoctor) {
+      next({name: 'PatientSearch'})
     } else {
       next()
     }
   } else {
+    // console.log(store.state)
     axios({
       method: 'get',
       url: backendUrl + 'login/'
@@ -38,17 +41,18 @@ router.beforeEach((to, from, next) => {
         store.commit('setUsername', data.data.user.username)
         store.commit('setName', data.data.user.name)
         store.commit('isAdmin', data.data.user.isAdmin)
-        store.commit('isProf', data.data.user.isProf)
-        store.commit('isTA', data.data.user.isTA)
-        if ((to.name === 'Index'|| to.name === 'Login') && store.state.isProf) {
-          next({name: 'TeachList'})
+        store.commit('isDoctor', data.data.user.isDoctor)
+        if ((to.name === 'Index'|| to.name === 'Login') && store.state.isDoctor) {
+          next({name: 'PatientSearch'})
         } else {
           next()
         }
       } else {
         next({name: 'Login'})
       }
-    })
+    }), (error) => {
+      console.log(error)
+    }
   }
 })
 

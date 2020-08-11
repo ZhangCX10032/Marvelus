@@ -1,7 +1,7 @@
 <template>
   <div class="info-bar">
     <img class="logo-img" src="../assets/logo-transparent-bg.png">
-    <div class="user">Welcome, {{ $store.state.name }} <Button class="p-button-danger" icon="pi pi-sign-out" @click="logout()"/></div>
+    <div class="user"> 欢迎, {{ $store.state.name }} <Button class="p-button-danger" icon="pi pi-sign-out" @click="logout()"/></div>
   </div>
 </template>
 
@@ -15,8 +15,7 @@ export default {
     logout: function() {
       this.$store.commit('setUsername', null)
       this.$store.commit('isAdmin', false)
-      this.$store.commit('isProf', false)
-      this.$store.commit('isTA', false)
+      this.$store.commit('isDoctor', false)
       this.$axios({
         method: 'get',
         url: this.$url + 'logout/'

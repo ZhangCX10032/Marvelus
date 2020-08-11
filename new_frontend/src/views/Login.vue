@@ -1,16 +1,18 @@
 <template>
   <div>
     <div class="login-wrap">
-      <h3>Luminus Login</h3>
+      <h3>诊所登录</h3>
       <p v-show="showHelp">{{ help }}</p>
-      <input type="text" placeholder="Please enter username" v-model="username">
-      <input type="password" placeholder="Please enter password" v-model="password" @keyup.enter="login">
-      <button v-on:click="login">Login</button>
+      <input type="text" placeholder="请输入用户名" v-model="username">
+      <input type="password" placeholder="请输入密码" v-model="password" @keyup.enter="login">
+      <button v-on:click="login">登录</button>
     </div>
   </div>
 </template>
 
 <script>
+// import store from "../store";
+
 export default {
   name: 'Login',
   data () {
@@ -49,16 +51,30 @@ export default {
         ]
       }).then(response => {
         if (response.data.state) {
-          if (this.$store.state.isProf){
-            this.$router.push({name: 'TeachList'})
+          // console.log(this.$store.state)
+          console.log(this)
+          // console.log(response.data)
+          this.$store.commit('setUsername', response.data.data.user.username)
+          this.$store.commit('setName', response.data.data.user.name)
+          this.$store.commit('isAdmin', response.data.data.user.isAdmin)
+          this.$store.commit('isDoctor', response.data.data.user.isDoctor)
+          // if(this.$store){
+          //   console.log(this.$store)
+          // } else {
+          //   console.log("store false")
+          // }
+          if (this.$store.state.isDoctor){
+            this.$router.push({name: 'PatientSearch'})
           } else {
-            this.$router.push({name: 'Index'})
+            this.$router.push({name: 'Login'})
           }
         } else {
           this.help = response.data.error
           this.showHelp = true
         }
-      })
+      }), (error) => {
+        console.log(error)
+      }
     }
   }
 }

@@ -1,24 +1,24 @@
 <template>
   <div>
-    <MySideBar :whichActive="'patientSearch'" class="p-mr-2" />
-    <PatientDataTable :patients="patients" class="search"/>
+    <MySideBar :whichActive="'medicineSearch'" class="p-mr-2" />
+    <MedicineDataTable :patients="medicines" class="search"/>
   </div>
 </template>
 
 <script>
+import MedicineDataTable from "../components/dataTables/MedicineDataTable";
 import MySideBar from "../components/MySideBar";
-import PatientDataTable from "../components/dataTables/PatientDataTable";
 
 export default {
-  name: "PatientSearchPage",
+  name: "MedicineSearchPage",
   components: {
-    PatientDataTable,
-    MySideBar,
+    MedicineDataTable,
+    MySideBar
   },
   data () {
     return {
       msg: 'Network Error',
-      patients: null,
+      medicines: null,
       state: false,
       keyword: ''
     }

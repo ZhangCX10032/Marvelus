@@ -3,7 +3,7 @@
     <DataTable :value="patients" sortMode="multiple" class="p-datatable-patients" :paginator="true" :rows="10"
                dataKey="id" :rowHover="true" :filters="filters"
                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-               :rowsPerPageOptions="[10,25,50]" currentPageReportTemplate="正在显示从第{first}项到第{last}项/共{totalRecords}项">>
+               :rowsPerPageOptions="[10,25,50]" currentPageReportTemplate="正在显示从第{first}项到第{last}项/共{totalRecords}项">
       <template #header>
         <div class="table-header">
             患者列表
@@ -53,7 +53,9 @@
           {{slotProps.data.birthdate}}
         </template>
         <template #filter>
-          <Calendar v-model="filters['birthdate']" dateFormat="yy-mm-dd" :monthNavigator="true" :showIcon="true" :showButtonBar="true" :locale="cn" :yearNavigator="true" placeholder="生日" yearRange="1900:2050"/>
+          <Calendar v-model="filters['birthdate']" dateFormat="yy-mm-dd" :monthNavigator="true"
+                    :showButtonBar="true" :locale="cn" :yearNavigator="true"
+                    class="p-column-filter" placeholder="生日" yearRange="1900:2050"/>
         </template>
       </Column>
       <Column field="phone_number" header="手机" filterMatchMode="contains">
@@ -67,7 +69,7 @@
       </Column>
       <Column>
         <template #body>
-            <Button label="就诊"></Button>
+          <Button label="就诊"></Button>
         </template>
       </Column>
     </DataTable>
@@ -82,7 +84,7 @@ import DataTable from 'primevue/datatable';
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext';
 export default {
-  name: 'BasicPatientList',
+  name: 'PatientDataTable',
   components: {
     Button,
     Calendar,

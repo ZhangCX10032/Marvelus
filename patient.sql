@@ -110,3 +110,7 @@ insert into Doctors values ('doc1');
 insert into Patients values (null, '1999-05-20', '患者1', '女', '12345678');
 insert into Patients values (null, '1949-10-01', '患者0', '男', '10033334444');
 insert into Patients values (null, '1996-02-29', '患者', '女', '22993322');
+
+insert into Medicines values ('板蓝根', '哈药', '好牌', '袋', '10', '1.4');
+insert into Medicines values ('罗红霉素', '哈药', '好牌', '瓶', '90', '15.0');
+insert into Medicines values ('阿司匹林', '华药', '东方牌', '片', '400', '0.3');

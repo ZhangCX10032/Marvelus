@@ -6,6 +6,7 @@ def get_medicine_by_med_name(med_name):
                                        " where med_name LIKE %(med_name)s",
                                        {'med_name': '%' + med_name + '%'})
 
+
 def add_medicine_by_name_manufacturer_brand_spec_amount_default_price(med_name, med_manufacturer, brand, spec,
                                                                       amount, price):
     sql_helper.exec_sql('INSERT INTO Medicines values (%(med_name)s, %(med_manufacturer)s,%(brand)s, %(spec)s, '

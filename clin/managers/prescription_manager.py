@@ -26,10 +26,11 @@ def get_prescription_by_prescription_id(prescription_id):
                                        {'prescription_id': prescription_id})
 
 
-def add_prescription(create_time, uname, patient_id):
+def add_prescription(create_time, uname, patient_id, content):
     last_id = sql_helper.insert_and_return_id("INSERT IGNORE INTO Prescriptions"
-                                              " values (null, %(create_time)s, %(uname)s, %(patient_id)s)",
-                                              {'create_time': create_time, 'uname': uname, 'patient_id': patient_id})
+                                              " values (null, %(create_time)s, %(uname)s, %(patient_id)s, %(content)s)",
+                                              {'create_time': create_time, 'uname': uname, 'patient_id': patient_id,
+                                               'content': content})
 
     return get_prescription_by_prescription_id(last_id)
 

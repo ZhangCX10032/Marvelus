@@ -62,6 +62,7 @@ prescription_id bigint unsigned AUTO_INCREMENT,
 create_time datetime not null,
 uname varchar(50),
 patient_id bigint unsigned,
+content varchar(1027),
 FOREIGN KEY (uname) references Doctors(uname) ON DELETE CASCADE,
 FOREIGN KEY (patient_id) references Patients(patient_id) ON DELETE CASCADE,
 PRIMARY KEY (prescription_id)

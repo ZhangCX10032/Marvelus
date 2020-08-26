@@ -68,11 +68,20 @@
         </template>
       </Column>
       <Column>
-        <template #body>
-          <Button label="就诊"></Button>
+        <template #body="slotProps">
+          <Button label="就诊" @click="startPrescribing(slotProps.data.patient_id, slotProps.data.name)"/>
         </template>
       </Column>
     </DataTable>
+    <Dialog :visible.sync="display" header="就诊:" :style="{width: 'calc(100vw) * 0.9'}" :maximizable="true" :modal="false">
+      <div class="post-label">{{this.selectedPatientName}}就诊中:</div>
+      <Textarea v-model="prescriptionContent" :autoResize="true" rows="5" cols="100" class="input"/>
+      <template #footer>
+        <Button label="添加" icon="pi pi-check" @click="addPrescription()" />
+        <Button label="取消" icon="pi pi-times" @click="display = false" class="p-button-secondary"/>
+      </template>
+    </Dialog>
+    <Toast/>
   </div>
 </template>
 
@@ -81,8 +90,11 @@ import Button from 'primevue/button';
 import Calendar from 'primevue/calendar';
 import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
+import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext';
+import Textarea from 'primevue/textarea';
+import Toast from 'primevue/toast';
 export default {
   name: 'PatientDataTable',
   components: {
@@ -90,8 +102,11 @@ export default {
     Calendar,
     Column,
     DataTable,
+    Dialog,
     Dropdown,
-    InputText
+    InputText,
+    Textarea,
+    Toast
   },
   props: {
     patients: Array,
@@ -99,6 +114,10 @@ export default {
   },
   data(){
     return {
+      display: false,
+      selectedPatientId: '',
+      selectedPatientName: '',
+      prescriptionContent: '',
       filters:{},
       genders: [
           '男', '女'
@@ -142,6 +161,33 @@ export default {
       }
 
       return date.getFullYear() + '-' + month + '-' + day;
+    },
+    startPrescribing(patientId, patientName){
+      this.selectedPatientId = patientId
+      this.selectedPatientName = patientName
+      this.display = true
+    },
+    addPrescription() {
+      this.$axios.request({
+        url: this.$url + 'prescriptions/add/',
+        method: 'POST',
+        data: {
+          patient_id: this.selectedPatientId,
+          content: this.prescriptionContent
+        }
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.error = null
+          this.prescriptionContent = ''
+          this.selectedPatientId = ''
+          this.display = false
+           this.$toast.add({severity:'success', summary: '成功 ', detail:'成功添加就诊记录!', life: 3000});
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
     }
   }
 }
@@ -232,5 +278,13 @@ export default {
         }
       }
     }
+  }
+  .post-label {
+    width: calc(100vw * 0.2);
+    float: left;
+  }
+  .input {
+    width: calc(100vw * 0.7);
+    float: right;
   }
 </style>

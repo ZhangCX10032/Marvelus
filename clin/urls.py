@@ -49,9 +49,8 @@ urlpatterns = [
     path("prescriptions/withmed/prescriptionid/<prescription_id>/",
          prescription_view.get_prescription_with_medicine_by_prescription_id),
     path("prescriptions/prescriptionid/<prescription_id>/", prescription_view.get_prescription_by_prescription_id),
-    path("prescriptions/addprescription/<uname>/<patient_id>/", prescription_view.add_prescription),
-    path("prescriptions/addmedicinetoprescription/<prescription_id>/"
-         "<med_name>/<med_manufacturer>/<brand>/<spec>/<amount>/", prescription_view.add_medicine_to_prescription),
+    path("prescriptions/add/", prescription_view.add_prescription),
+    path("prescriptions/addmedicine/", prescription_view.add_medicine_to_prescription),
 
     url(r'', auth_view.default)
 
